@@ -7859,7 +7859,7 @@
         await fetchMerchantsList();
         currentMerchantId = data.merchant.id;
         renderMerchantSelector();
-        await loadMerchantSettings();
+        await fetchGatewaySettings(); // ✅ SAHI FUNCTION YE HAI
         renderMerchantCredentials(data.merchant);
       } catch (err) {
         showAdminToast(`Network error: ${err.message}`, false);
