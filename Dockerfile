@@ -58,15 +58,18 @@ ENV NODE_ENV=production
 ENV YOUPI_MODE=production
 ENV YOUPI_BIND_HOST=0.0.0.0
 
+# 🔥 FIX 1: Node ko har service ke liye max 45MB RAM use karne ki limit di hai (OOM kill se bachne ke liye)
+ENV NODE_OPTIONS="--max-old-space-size=45"
+
 WORKDIR /app
 
-# Harden runtime image: strip unused package managers and CLI build tools to minimize attack surface and vulnerabilities
-RUN rm -rf /usr/local/lib/node_modules/npm \
-           /usr/local/lib/node_modules/corepack \
-           /usr/local/bin/npm \
-           /usr/local/bin/npx \
-           /usr/local/bin/corepack \
-           /opt/yarn*
+# 🔥 FIX 2: Hardening block disable kar diya taaki start.js NPM ko freely use kar sake
+# RUN rm -rf /usr/local/lib/node_modules/npm \
+#            /usr/local/lib/node_modules/corepack \
+#            /usr/local/bin/npm \
+#            /usr/local/bin/npx \
+#            /usr/local/bin/corepack \
+#            /opt/yarn*
 
 # Create unprivileged application user
 RUN addgroup -S -g 1001 youpi && \
